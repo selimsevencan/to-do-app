@@ -4,56 +4,82 @@ import Projects from './Component/Projects';
 import AddProject from './Component/AddProject';
 import './App.css';
 
+const data = [
+  {
+    id: uuid.v4(),
+    title: 'JavaScript',
+    subtitle: 'Front-End',
+    isChecked: true,
+  },
+  {
+    id: uuid.v4(),
+    title: 'Python',
+    subtitle: 'Back-End',
+    isChecked: false,
+  },
+  {
+    id: uuid.v4(),
+    title: 'Sketch',
+    subtitle: 'Design',
+    isChecked: true,
+  },
+  {
+    id: uuid.v4(),
+    title: 'Visual Studio Code',
+    subtitle: 'Text Editor',
+    isChecked: false,
+  },
+];
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      projects: []
-    }
+      projects: data,
+    };
+    this.handleAddProject = this.handleAddProject.bind(this);
+    this.handleCheckProject = this.handleCheckProject.bind(this);
+    this.handleDeleteProject = this.handleDeleteProject.bind(this);
   }
 
-  componentWillMount() {
-    this.setState({projects: [
-      {
-          id: uuid.v4(),
-          title: 'JavaScript',
-          subtitle: 'Front-End'
-        },
-        {
-          id: uuid.v4(),
-          title: 'Python',
-          subtitle: 'Back-End'
-        },
-        {
-          id: uuid.v4(),
-          title: 'Sketch',
-          subtitle: 'Design'
-        },
-        {
-          id: uuid.v4(),
-          title: 'Visual Studio Code',
-          subtitle: 'Text Editor'
-        }
-    ]})
-  }
-  handleAddProject(project){
-    let projects = this.state.projects;
+  handleAddProject(project) {
+    const projects = this.state.projects;
     projects.push(project);
-    this.setState({projects:projects});
+    this.setState({ projects });
   }
+
+  handleCheckProject(id) {
+    const projects = this.state.projects;
+
+    const newProjects = projects.map((_x) => {
+      const x = _x;
+      if (x.id === id) {
+        x.isChecked = !x.isChecked;
+      }
+      return x;
+    });
+
+    this.setState({
+      projects: newProjects,
+    });
+  }
+
   handleDeleteProject(id) {
-    let projects = this.state.projects;
-    let index = projects.findIndex(x => x.id === id);
+    const projects = this.state.projects;
+    const index = projects.findIndex(x => x.id === id);
     projects.splice(index, 1);
-    this.setState({projects:projects});
+    this.setState({ projects });
   }
+
   render() {
-  
     return (
       <div className="App">
-            <Projects  projects={this.state.projects}  onDelete={this.handleDeleteProject.bind(this)}/>
-            <AddProject AddProject={this.handleAddProject.bind(this)} />
+        <Projects
+          projects={this.state.projects}
+          onChange={this.handleCheckProject}
+          onDelete={this.handleDeleteProject}
+        />
+        <AddProject AddProject={this.handleAddProject} />
       </div>
     );
   }
