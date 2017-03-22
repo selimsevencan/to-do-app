@@ -37,6 +37,11 @@ class ProjectItem extends Component {
   }
 }
 
+ProjectItem.defaultProps = {
+  onChange: () => {},
+  onDelete: () => {},
+};
+
 ProjectItem.propTypes = {
   project: PropTypes.object.isRequired,
 };

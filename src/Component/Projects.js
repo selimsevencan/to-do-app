@@ -23,8 +23,9 @@ class Projects extends Component {
       <div className="projects card">
         <h3>Projects</h3>
         {projectItems}
-        <span> There are {projectsLength} programing languages  </span>
-        <span>Clicked projects {clickedProjectsLength}</span>
+        <span> There are {projectsLength} programing languages </span>
+        <br />
+        <span>{clickedProjectsLength} Checked projects </span>
       </div>
     );
   }
